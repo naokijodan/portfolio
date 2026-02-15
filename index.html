@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - naokijodan</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #21262d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --accent-hover: #79b8ff;
+            --border: #30363d;
+            --green: #3fb950;
+            --yellow: #d29922;
+            --purple: #a371f7;
+            --pink: #db61a2;
+            --orange: #f0883e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans JP', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: var(--bg-secondary);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+        }
+
+        .category {
+            margin-bottom: 2.5rem;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .category-icon {
+            font-size: 1.5rem;
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+        }
+
+        .category-count {
+            background: var(--bg-card);
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1rem;
+        }
+
+        .project-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            transition: all 0.2s;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .project-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .project-title a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .project-title a:hover {
+            text-decoration: underline;
+        }
+
+        .project-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            min-height: 2.5rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .link-pages {
+            background: rgba(63, 185, 80, 0.15);
+            color: var(--green);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+        }
+
+        .link-pages:hover {
+            background: rgba(63, 185, 80, 0.25);
+        }
+
+        .link-repo {
+            background: rgba(88, 166, 255, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+        }
+
+        .link-repo:hover {
+            background: rgba(88, 166, 255, 0.25);
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .badge-extension {
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--purple);
+        }
+
+        .badge-guide {
+            background: rgba(210, 153, 34, 0.2);
+            color: var(--yellow);
+        }
+
+        .badge-tool {
+            background: rgba(240, 136, 62, 0.2);
+            color: var(--orange);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .stats {
+                gap: 1rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>naokijodan's Portfolio</h1>
+            <p>eBay転売・自動化ツール・市場分析のプロジェクト集</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">53</div>
+                    <div class="stat-label">Total Repos</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">36</div>
+                    <div class="stat-label">Published Pages</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Chrome Extensions</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">すべて</button>
+            <button class="filter-btn" data-filter="analysis">市場分析</button>
+            <button class="filter-btn" data-filter="extension">Chrome拡張</button>
+            <button class="filter-btn" data-filter="automation">自動化</button>
+            <button class="filter-btn" data-filter="guide">ガイド</button>
+            <button class="filter-btn" data-filter="sheet">一括シート</button>
+            <button class="filter-btn" data-filter="calculator">価格計算</button>
+        </div>
+
+        <!-- 市場分析・リサーチ -->
+        <section class="category" data-category="analysis">
+            <div class="category-header">
+                <span class="category-icon">📊</span>
+                <h2 class="category-title">市場分析・リサーチ</h2>
+                <span class="category-count">9</span>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/watch-market-analysis/" target="_blank">watch-market-analysis</a>
+                    </h3>
+                    <p class="project-desc">時計市場の価格分析・トレンド調査</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/watch-market-analysis/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/watch-market-analysis" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/hermes-market-analysis/" target="_blank">hermes-market-analysis</a>
+                    </h3>
+                    <p class="project-desc">HERMES市場分析レポート</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/hermes-market-analysis/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/hermes-market-analysis" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/pearl-market-analysis/" target="_blank">pearl-market-analysis</a>
+                    </h3>
+                    <p class="project-desc">パール・真珠市場の分析</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/pearl-market-analysis/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/pearl-market-analysis" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/necklace-market-analysis/" target="_blank">necklace-market-analysis</a>
+                    </h3>
+                    <p class="project-desc">ネックレス市場の価格分析</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/necklace-market-analysis/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/necklace-market-analysis" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/brooch-market-analysis/" target="_blank">brooch-market-analysis</a>
+                    </h3>
+                    <p class="project-desc">ブローチ市場の分析</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/brooch-market-analysis/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/brooch-market-analysis" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/earring-market-analysis/" target="_blank">earring-market-analysis</a>
+                    </h3>
+                    <p class="project-desc">イヤリング市場の分析</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/earring-market-analysis/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/earring-market-analysis" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/mens-jewelry-market-analysis/" target="_blank">mens-jewelry-market-analysis</a>
+                    </h3>
+                    <p class="project-desc">メンズジュエリー市場の分析</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/mens-jewelry-market-analysis/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/mens-jewelry-market-analysis" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/ferragamo-market-analysis/" target="_blank">ferragamo-market-analysis</a>
+                    </h3>
+                    <p class="project-desc">Ferragamo市場の分析</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/ferragamo-market-analysis/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/ferragamo-market-analysis" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/hair-accessory-research/" target="_blank">hair-accessory-research</a>
+                    </h3>
+                    <p class="project-desc">ヘアアクセサリー市場リサーチ</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/hair-accessory-research/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/hair-accessory-research" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chrome拡張機能 -->
+        <section class="category" data-category="extension">
+            <div class="category-header">
+                <span class="category-icon">🧩</span>
+                <h2 class="category-title">Chrome拡張機能</h2>
+                <span class="category-count">6</span>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://github.com/naokijodan/bunseki-kun" target="_blank">bunseki-kun</a>
+                        <span class="badge badge-extension">Extension</span>
+                    </h3>
+                    <p class="project-desc">eBay出品データ分析Chrome拡張機能（OpenAI, Claude, Gemini対応）</p>
+                    <div class="project-links">
+                        <a href="https://github.com/naokijodan/bunseki-kun" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://github.com/naokijodan/shiraberu-kun" target="_blank">shiraberu-kun</a>
+                        <span class="badge badge-extension">Extension</span>
+                    </h3>
+                    <p class="project-desc">メルカリ商品のeBay市場価格を瞬時にリサーチするChrome拡張機能</p>
+                    <div class="project-links">
+                        <a href="https://github.com/naokijodan/shiraberu-kun" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/torikomi-hime-wa-mita/" target="_blank">torikomi-hime-wa-mita</a>
+                        <span class="badge badge-extension">Extension</span>
+                    </h3>
+                    <p class="project-desc">ECサイト・フリマサイトの商品情報スクレイパー Chrome拡張機能</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/torikomi-hime-wa-mita/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/torikomi-hime-wa-mita" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://github.com/naokijodan/puron-kun" target="_blank">puron-kun</a>
+                        <span class="badge badge-extension">Extension</span>
+                    </h3>
+                    <p class="project-desc">ぷろん君 - プロンプト管理Chrome拡張機能</p>
+                    <div class="project-links">
+                        <a href="https://github.com/naokijodan/puron-kun" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://github.com/naokijodan/mojimoji-kun" target="_blank">mojimoji-kun</a>
+                        <span class="badge badge-extension">Extension</span>
+                    </h3>
+                    <p class="project-desc">動画文字起こし & 記事生成 Chrome拡張機能 - YouTube/Vimeo対応</p>
+                    <div class="project-links">
+                        <a href="https://github.com/naokijodan/mojimoji-kun" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://github.com/naokijodan/keyword-mitsukeru-kun" target="_blank">keyword-mitsukeru-kun</a>
+                        <span class="badge badge-extension">Extension</span>
+                    </h3>
+                    <p class="project-desc">eBayリサーチ中にキーワードをハイライト・発見するChrome拡張機能</p>
+                    <div class="project-links">
+                        <a href="https://github.com/naokijodan/keyword-mitsukeru-kun" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 自動化システム -->
+        <section class="category" data-category="automation">
+            <div class="category-header">
+                <span class="category-icon">🤖</span>
+                <h2 class="category-title">自動化システム</h2>
+                <span class="category-count">5</span>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://github.com/naokijodan/auto-listing-system" target="_blank">auto-listing-system</a>
+                        <span class="badge badge-tool">Tool</span>
+                    </h3>
+                    <p class="project-desc">eBay/Joom自動出品システム - メルカリ等から商品を取得し、自動で出品・在庫管理を行う統合システム</p>
+                    <div class="project-links">
+                        <a href="https://github.com/naokijodan/auto-listing-system" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/auto-listing-system-plan/" target="_blank">auto-listing-system-plan</a>
+                    </h3>
+                    <p class="project-desc">eBay/Joom自動出品システム設計計画書 - 3者AI協議による統合設計</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/auto-listing-system-plan/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/auto-listing-system-plan" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/universal-scraper/" target="_blank">universal-scraper</a>
+                        <span class="badge badge-tool">Tool</span>
+                    </h3>
+                    <p class="project-desc">汎用スクレイピングツール</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/universal-scraper/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/universal-scraper" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/resale-automation-design/" target="_blank">resale-automation-design</a>
+                    </h3>
+                    <p class="project-desc">転売自動化システムの設計資料</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/resale-automation-design/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/resale-automation-design" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/ec-research-agent-docs/" target="_blank">ec-research-agent-docs</a>
+                    </h3>
+                    <p class="project-desc">ECリサーチエージェント設計書 - eBay販売の自動化・効率化プロジェクト</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/ec-research-agent-docs/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/ec-research-agent-docs" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ガイド・ドキュメント -->
+        <section class="category" data-category="guide">
+            <div class="category-header">
+                <span class="category-icon">📚</span>
+                <h2 class="category-title">ガイド・ドキュメント</h2>
+                <span class="category-count">10</span>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://github.com/naokijodan/claude-code-susume" target="_blank">claude-code-susume</a>
+                        <span class="badge badge-guide">Guide</span>
+                    </h3>
+                    <p class="project-desc">Claude Codeのススメ - 個人の可能性を広げるAI開発ツール入門ガイド</p>
+                    <div class="project-links">
+                        <a href="https://github.com/naokijodan/claude-code-susume" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/everything-claude-code-guide/" target="_blank">everything-claude-code-guide</a>
+                        <span class="badge badge-guide">Guide</span>
+                    </h3>
+                    <p class="project-desc">Claude Code完全ガイド</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/everything-claude-code-guide/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/everything-claude-code-guide" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/ai-mcp-bridge-guide/" target="_blank">ai-mcp-bridge-guide</a>
+                        <span class="badge badge-guide">Guide</span>
+                    </h3>
+                    <p class="project-desc">Claude Code × GPT × Gemini 連携ガイド - MCPサーバーで複数AIを連携する方法</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/ai-mcp-bridge-guide/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/ai-mcp-bridge-guide" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/ai-cli-installer/" target="_blank">ai-cli-installer</a>
+                        <span class="badge badge-tool">Tool</span>
+                    </h3>
+                    <p class="project-desc">AI CLI統合インストーラー - Claude Code / Codex CLI / Gemini CLI を簡単インストール</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/ai-cli-installer/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/ai-cli-installer" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/ai-vocabulary-textbook/" target="_blank">ai-vocabulary-textbook</a>
+                        <span class="badge badge-guide">Guide</span>
+                    </h3>
+                    <p class="project-desc">AIを使うための基礎用語270語 - 学習用HTML教材</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/ai-vocabulary-textbook/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/ai-vocabulary-textbook" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/ai-business-discussion/" target="_blank">ai-business-discussion</a>
+                    </h3>
+                    <p class="project-desc">AI 3者討論：eBay時計ビジネス戦略 - Claude、GPT-5、Geminiによるビジネス相談の実例</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/ai-business-discussion/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/ai-business-discussion" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/obsidian-complete-guide/" target="_blank">obsidian-complete-guide</a>
+                        <span class="badge badge-guide">Guide</span>
+                    </h3>
+                    <p class="project-desc">Obsidian完全ガイド - ナレッジ管理の新しいスタンダード</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/obsidian-complete-guide/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/obsidian-complete-guide" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/obsidian-guide/" target="_blank">obsidian-guide</a>
+                        <span class="badge badge-guide">Guide</span>
+                    </h3>
+                    <p class="project-desc">小中学生向けObsidian入門ガイド（日本語）</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/obsidian-guide/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/obsidian-guide" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/shopify-guide/" target="_blank">shopify-guide</a>
+                        <span class="badge badge-guide">Guide</span>
+                    </h3>
+                    <p class="project-desc">Shopify完全ガイド - 導入から各プラットフォーム連携まで</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/shopify-guide/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/shopify-guide" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/joom-auto-listing-guide/" target="_blank">joom-auto-listing-guide</a>
+                        <span class="badge badge-guide">Guide</span>
+                    </h3>
+                    <p class="project-desc">Joom自動出品ガイド</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/joom-auto-listing-guide/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/joom-auto-listing-guide" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 一括シート・GAS -->
+        <section class="category" data-category="sheet">
+            <div class="category-header">
+                <span class="category-icon">📋</span>
+                <h2 class="category-title">一括シート・GAS</h2>
+                <span class="category-count">5</span>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://github.com/naokijodan/bulk-sheet-apps-v2" target="_blank">bulk-sheet-apps-v2</a>
+                        <span class="badge badge-tool">Tool</span>
+                    </h3>
+                    <p class="project-desc">一括登録シート Ver.40 Google Apps Script 全集</p>
+                    <div class="project-links">
+                        <a href="https://github.com/naokijodan/bulk-sheet-apps-v2" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/bulk-sheet-guide/" target="_blank">bulk-sheet-guide</a>
+                        <span class="badge badge-guide">Guide</span>
+                    </h3>
+                    <p class="project-desc">一括登録シート Ver.40 詳しい操作方法ガイド</p>
+                    <div class="project-links">
+                        <a href="https://github.com/naokijodan/bulk-sheet-guide" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/bulk-tools-guide/" target="_blank">bulk-tools-guide</a>
+                        <span class="badge badge-guide">Guide</span>
+                    </h3>
+                    <p class="project-desc">一括ツールガイド</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/bulk-tools-guide/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/bulk-tools-guide" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/bulk-sheet-report/" target="_blank">bulk-sheet-report</a>
+                    </h3>
+                    <p class="project-desc">一括シート改修報告書</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/bulk-sheet-report/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/bulk-sheet-report" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/bulk-sheet-report-v2/" target="_blank">bulk-sheet-report-v2</a>
+                    </h3>
+                    <p class="project-desc">一括シートApps v2 改修報告書 - シッピングポリシー判定を想定関税ベースに変更</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/bulk-sheet-report-v2/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/bulk-sheet-report-v2" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 価格計算・手数料 -->
+        <section class="category" data-category="calculator">
+            <div class="category-header">
+                <span class="category-icon">🧮</span>
+                <h2 class="category-title">価格計算・手数料</h2>
+                <span class="category-count">5</span>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/ec-price-calculator/" target="_blank">ec-price-calculator</a>
+                        <span class="badge badge-tool">Tool</span>
+                    </h3>
+                    <p class="project-desc">EC価格計算ツール</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/ec-price-calculator/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/ec-price-calculator" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/price-calc-guide/" target="_blank">price-calc-guide</a>
+                        <span class="badge badge-guide">Guide</span>
+                    </h3>
+                    <p class="project-desc">価格計算ガイド</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/price-calc-guide/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/price-calc-guide" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/ebay-fee-analysis/" target="_blank">ebay-fee-analysis</a>
+                    </h3>
+                    <p class="project-desc">eBay手数料計算問題の分析資料（DDP価格ベース対応）</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/ebay-fee-analysis/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/ebay-fee-analysis" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/39-percent-tariff-system/" target="_blank">39-percent-tariff-system</a>
+                    </h3>
+                    <p class="project-desc">39%関税システム</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/39-percent-tariff-system/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/39-percent-tariff-system" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/cpass-invoice-guide/" target="_blank">cpass-invoice-guide</a>
+                        <span class="badge badge-guide">Guide</span>
+                    </h3>
+                    <p class="project-desc">CPaSSインボイスガイド</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/cpass-invoice-guide/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/cpass-invoice-guide" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- その他 -->
+        <section class="category" data-category="other">
+            <div class="category-header">
+                <span class="category-icon">📦</span>
+                <h2 class="category-title">その他</h2>
+                <span class="category-count">8</span>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/vibe-hive/" target="_blank">vibe-hive</a>
+                    </h3>
+                    <p class="project-desc">Vibe Hive プロジェクト</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/vibe-hive/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/vibe-hive" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/mlb-news-2026/" target="_blank">mlb-news-2026</a>
+                    </h3>
+                    <p class="project-desc">MLB News 2026</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/mlb-news-2026/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/mlb-news-2026" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/codex-csv-analysis-guide/" target="_blank">codex-csv-analysis-guide</a>
+                    </h3>
+                    <p class="project-desc">Codex CSV分析ガイド</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/codex-csv-analysis-guide/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/codex-csv-analysis-guide" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/joom-api-guide/" target="_blank">joom-api-guide</a>
+                    </h3>
+                    <p class="project-desc">Joom API ガイド</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/joom-api-guide/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/joom-api-guide" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://naokijodan.github.io/prompt-editor-guide/" target="_blank">prompt-editor-guide</a>
+                    </h3>
+                    <p class="project-desc">プロンプトエディターガイド</p>
+                    <div class="project-links">
+                        <a href="https://naokijodan.github.io/prompt-editor-guide/" class="project-link link-pages" target="_blank">📄 Pages</a>
+                        <a href="https://github.com/naokijodan/prompt-editor-guide" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://github.com/naokijodan/watch-worksheet" target="_blank">watch-worksheet</a>
+                    </h3>
+                    <p class="project-desc">時計ワークシート</p>
+                    <div class="project-links">
+                        <a href="https://github.com/naokijodan/watch-worksheet" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://github.com/naokijodan/michatta-kun" target="_blank">michatta-kun</a>
+                    </h3>
+                    <p class="project-desc">みちゃった君</p>
+                    <div class="project-links">
+                        <a href="https://github.com/naokijodan/michatta-kun" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3 class="project-title">
+                        <a href="https://github.com/naokijodan/Claude-Code-Communication" target="_blank">Claude-Code-Communication</a>
+                    </h3>
+                    <p class="project-desc">Claude Code Communication</p>
+                    <div class="project-links">
+                        <a href="https://github.com/naokijodan/Claude-Code-Communication" class="project-link link-repo" target="_blank">📂 Repo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Built with Claude Code | <a href="https://github.com/naokijodan" target="_blank">GitHub Profile</a></p>
+            <p style="margin-top: 0.5rem;">Last updated: February 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+
+                document.querySelectorAll('.category').forEach(category => {
+                    if (filter === 'all' || category.dataset.category === filter) {
+                        category.style.display = 'block';
+                    } else {
+                        category.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
