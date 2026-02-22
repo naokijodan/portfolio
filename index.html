@@ -942,6 +942,17 @@
             </div>
         </section>
 
+        <!-- Quick Reference -->
+        <section style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px;">
+            <h3 style="color: var(--accent); margin-bottom: 0.75rem; font-size: 1rem;">Quick Reference</h3>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 0.5rem;">Claude Code 確認不要モード:</p>
+            <div style="background: var(--bg-primary); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem 1rem; font-family: 'SF Mono', monospace; font-size: 0.85rem; color: var(--green); cursor: pointer; position: relative;" onclick="navigator.clipboard.writeText('claude --dangerously-skip-permissions'); this.querySelector('.copied').style.display='block'; setTimeout(()=>this.querySelector('.copied').style.display='none',1500);">
+                claude --dangerously-skip-permissions
+                <span class="copied" style="display:none; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--accent); font-size:0.75rem;">Copied!</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.75rem; margin-top: 0.5rem;">クリックでコピー</p>
+        </section>
+
         <footer>
             <p>Built with Claude Code | <a href="https://github.com/naokijodan" target="_blank">GitHub Profile</a></p>
             <p style="margin-top: 0.5rem;">Last updated: February 2026</p>
