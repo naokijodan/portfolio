@@ -951,6 +951,19 @@
                 <span class="copied" style="display:none; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--accent); font-size:0.75rem;">Copied!</span>
             </div>
             <p style="color: var(--text-secondary); font-size: 0.75rem; margin-top: 0.5rem;">クリックでコピー</p>
+
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 1rem; margin-bottom: 0.5rem;">セッション再開（直前のセッションを再開）:</p>
+            <div style="background: var(--bg-primary); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem 1rem; font-family: 'SF Mono', monospace; font-size: 0.85rem; color: var(--green); cursor: pointer; position: relative;" onclick="navigator.clipboard.writeText('claude --continue'); this.querySelector('.copied').style.display='block'; setTimeout(()=>this.querySelector('.copied').style.display='none',1500);">
+                claude --continue
+                <span class="copied" style="display:none; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--accent); font-size:0.75rem;">Copied!</span>
+            </div>
+
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 1rem; margin-bottom: 0.5rem;">セッション選択（過去のセッション一覧から選択）:</p>
+            <div style="background: var(--bg-primary); border: 1px solid var(--border); border-radius: 6px; padding: 0.75rem 1rem; font-family: 'SF Mono', monospace; font-size: 0.85rem; color: var(--green); cursor: pointer; position: relative;" onclick="navigator.clipboard.writeText('claude --resume'); this.querySelector('.copied').style.display='block'; setTimeout(()=>this.querySelector('.copied').style.display='none',1500);">
+                claude --resume
+                <span class="copied" style="display:none; position:absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--accent); font-size:0.75rem;">Copied!</span>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.75rem; margin-top: 0.5rem;">クリックでコピー</p>
         </section>
 
         <footer>
